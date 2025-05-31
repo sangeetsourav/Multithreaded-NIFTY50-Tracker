@@ -66,7 +66,6 @@ class YamlPipelineExecutor(threading.Thread):
         self._initialize_workers()
         # We don't need to join the worker threads as the self.run()
         # is going to be alive until all worker threads are done
-        # self._join_workers()
 
     def run(self):
         self.process_pipeline()

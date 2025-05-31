@@ -40,6 +40,22 @@ class PostgresWorker:
         self._PG_HOST = os.environ.get('PG_HOST')
         self._PG_DB = os.environ.get('PG_DB')
 
+        if self._PG_USER is None:
+            print("Please set PG_USER environment variable")
+            exit()
+
+        if self._PG_PW is None:
+            print("Please set PG_PW environment variable")
+            exit()
+
+        if self._PG_HOST is None:
+            print("Please set PG_HOST environment variable")
+            exit()
+
+        if self._PG_DB is None:
+            print("Please set PG_DB environment variable")
+            exit()
+
         self._engine = create_engine(f"postgresql://{self._PG_USER}:{self._PG_PW}@{self._PG_HOST}/{self._PG_DB}")
 
     def _create_insert_query(self):
