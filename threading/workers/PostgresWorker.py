@@ -1,10 +1,11 @@
 import os
 import threading
 from queue import Empty
+
 from sqlalchemy import create_engine, text
 
 class PostgresMasterScheduler(threading.Thread):
-    def __init__(self, input_queue, **kwargs):
+    def __init__(self, input_queue, output_queues, input_values, **kwargs):
         super().__init__(**kwargs)
 
         self._input_queue = input_queue
@@ -17,7 +18,7 @@ class PostgresMasterScheduler(threading.Thread):
                 # get() keeps waiting until the queue returns value, so we add a timeout
                 val = self._input_queue.get(timeout=10)
             except Empty:
-                print("Postgres worker timed out")
+                print("Postgres worker timed out.")
                 break
 
             symbol, price, extracted_time = val

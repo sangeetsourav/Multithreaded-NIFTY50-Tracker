@@ -9,3 +9,4 @@ dependencies:
   - lxml
   - sqlalchemy
   - psycopg2
+  - pyyaml

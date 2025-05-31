@@ -1,15 +1,17 @@
-import threading
-import requests
-from lxml import html
 import time
 import datetime
 import random
 from queue import Empty
+import threading
+
+import requests
+from lxml import html
 
 class GoogleFinancePriceScheduler(threading.Thread):
-    def __init__(self, input_queue, output_queues, **kwargs):
+    def __init__(self, input_queue, output_queues, input_values, **kwargs):
         super().__init__(**kwargs)
         self._input_queue = input_queue
+
         if not isinstance(output_queues,list):
             self._output_queues = [output_queues]
 
@@ -22,7 +24,7 @@ class GoogleFinancePriceScheduler(threading.Thread):
                 # get() keeps waiting until the queue returns value, so we add a timeout
                 val = self._input_queue.get(timeout=10)
             except Empty:
-                print("Google finance worker timed out")
+                print("Google finance worker timed out.")
                 break
 
             yahoo_finance_price_worker = GoogleFinancePriceWorker(symbol=val)
