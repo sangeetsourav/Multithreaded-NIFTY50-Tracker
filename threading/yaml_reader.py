@@ -74,6 +74,7 @@ class YamlPipelineExecutor(threading.Thread):
         while True:
             total_workers_alive = 0
             worker_stats = []
+            q_stats = []
             worker_del = []
             for worker_name, worker_threads in self._workers.items():
                 total_worker_threads_alive = 0
@@ -100,7 +101,11 @@ class YamlPipelineExecutor(threading.Thread):
             for worker in worker_del:
                 del self._workers[worker]
 
-            print(worker_stats)
+            for queue in self._queues:
+                q_stats.append([queue, self._queues[queue].qsize()])
+
+            print("Queue Stats: ",q_stats)
+            print("Worker Stats: ",worker_stats)
 
             if total_workers_alive == 0:
                 break
