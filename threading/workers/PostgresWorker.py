@@ -18,7 +18,10 @@ class PostgresMasterScheduler(threading.Thread):
                 # get() keeps waiting until the queue returns value, so we add a timeout
                 val = self._input_queue.get(timeout=10)
             except Empty:
-                print("Postgres worker timed out.")
+                print("Postgres scheduler queue is empty. Stopping...")
+                break
+
+            if val == 'DONE':
                 break
 
             symbol, price, extracted_time = val

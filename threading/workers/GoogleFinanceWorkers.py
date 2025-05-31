@@ -24,7 +24,10 @@ class GoogleFinancePriceScheduler(threading.Thread):
                 # get() keeps waiting until the queue returns value, so we add a timeout
                 val = self._input_queue.get(timeout=10)
             except Empty:
-                print("Google finance worker timed out.")
+                print("Google scheduler queue is empty. Stopping...")
+                break
+
+            if val == 'DONE':
                 break
 
             yahoo_finance_price_worker = GoogleFinancePriceWorker(symbol=val)

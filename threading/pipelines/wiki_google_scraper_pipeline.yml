@@ -19,7 +19,7 @@ workers:
     description: Pulls price data for a specific stock symbol from Google Finance
     location: workers.GoogleFinanceWorkers
     class: GoogleFinancePriceScheduler
-    instances: 10
+    instances: 25
     input_queue: SymbolQueue
     output_queues:
       - PostgresUploading
@@ -28,5 +28,5 @@ workers:
     description: Writes stock data into Postgres database
     location: workers.PostgresWorker
     class: PostgresMasterScheduler
-    instances: 10
+    instances: 5
     input_queue: PostgresUploading
