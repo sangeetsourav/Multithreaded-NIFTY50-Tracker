@@ -1,4 +1,4 @@
-name: coursera_con_py
+name: nifty-50-tracker
 channels:
   - conda-forge
   - defaults

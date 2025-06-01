@@ -1,0 +1,32 @@
+queues:
+  - name: SymbolQueue
+    description: Contains symbols to be scraped from Google Finance
+
+  - name: PostgresUploading
+    description: Contains data that needs to be written in the Postgres DB
+
+workers:
+  - name: WikiWorker
+    description: Scrapes the NIFTY 50 Wikipedia site and pulls out the symbols
+    location: workers.WikiWorker
+    class: WikiWorkerMasterScheduler
+    input_values:
+      - "https://en.wikipedia.org/wiki/NIFTY_50"
+    output_queues:
+      - SymbolQueue
+
+  - name: GoogleFinancePriceWorker
+    description: Pulls price data for a specific stock symbol from Google Finance
+    location: workers.GoogleFinanceWorkers
+    class: GoogleFinancePriceScheduler
+    instances: 10
+    input_queue: SymbolQueue
+    output_queues:
+      - PostgresUploading
+
+  - name: PostgresWorker
+    description: Writes stock data into Postgres database
+    location: workers.PostgresWorker
+    class: PostgresMasterScheduler
+    instances: 5
+    input_queue: PostgresUploading
