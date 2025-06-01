@@ -17,7 +17,7 @@ workers:
 
   - name: GoogleFinancePriceWorker
     description: Pulls price data for a specific stock symbol from Google Finance
-    location: workers.GoogleFinanceWorkers
+    location: workers.GoogleFinanceWorker
     class: GoogleFinancePriceScheduler
     instances: 10
     input_queue: SymbolQueue

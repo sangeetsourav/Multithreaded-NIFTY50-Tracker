@@ -1,7 +1,7 @@
 import os
 import time
 
-from yaml_reader import YamlPipelineExecutor
+from pipelines.yaml_reader import YamlPipelineExecutor
 
 def main():
     scraper_start_time = time.time()
